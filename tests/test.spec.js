@@ -1,13 +1,14 @@
 const { chromium } = require('playwright');
+const { test } = require('@playwright/test');
 
-(async () => {
-  const browser = await chromium.launch();
-  const page = await browser.newPage();
-  await page.goto('https://bitheap.tech');
-  await page.screenshot({ path: 'screenshot.png' });
-  await authenticate(page);
-  await browser.close();
-})();
+test.describe('BitHeap Authentication Test', () => {
+  test('should authenticate successfully', async ({}) => {
+    const browser = await chromium.launch();
+    const page = await browser.newPage();
+    await authenticate(page);
+    await browser.close();
+  });
+});
 
 async function authenticate(page) {
   await page.goto('https://bitheap.tech');
@@ -18,5 +19,5 @@ async function authenticate(page) {
   const text = await page.locator('#menu-item-2333').textContent()
   if(text != "Hello, Playwright")
     console.error("The authentication was not successful!")
-  await page.screenshot({ path: 'screenshot2.png' });
+  await page.screenshot({ path: 'screenshot.png' });
 }
